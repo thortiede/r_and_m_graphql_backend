@@ -21,6 +21,8 @@ Target is something like this:
 }
 '''
 
+# Define some sample Characters
+
 all_characters = [
         {
             "id": "1",
@@ -188,7 +190,7 @@ all_characters = [
 # Simple schema definition by String
 type_defs = gql("""
     type Query {
-        characters(name: String): [Character!]!
+        characters(filter: FilterCharacter): [Character!]!
     }
 
     type Character {
@@ -200,20 +202,45 @@ type_defs = gql("""
         gender: String
     }
     
+    input FilterCharacter {
+        name: String
+        names: [String]
+        status: String
+    }
 """)
 
 # Map resolver functions to Query fields using QueryType
 query = QueryType()
 
+# Method for filtering down the list of all characters according to the provided filter item
+def get_filtered_characters(filter):
+    ret = []
+    applied_filter = False
+    if "name" in filter:
+        ret += [char for char in all_characters if filter["name"] in char["name"]]
+        applied_filter = True
+    elif "names" in filter:
+        for name in filter["names"]:
+            ret += [char for char in all_characters if name in char["name"]]
+        applied_filter = True
+    if "status" in filter:
+        status = filter["status"]
+        if applied_filter:
+            ret = [char for char in ret if status == char["status"]]
+        else:
+            ret = [char for char in all_characters if status == char["status"]]
+        applied_filter = True
 
-def get_filtered_characters(name):
-    return [char for char in all_characters if name in char['name']]
+    ''' Add more filter types here.. '''
+
+    return ret
+
 
 # Resolver for the characters field
 @query.field("characters")
-def resolve_characters(*_, name=None):
-    if name:
-        return get_filtered_characters(name)
+def resolve_characters(*_, filter=None):
+    if filter:
+        return get_filtered_characters(filter)
     else:
         return all_characters
 
