@@ -21,30 +21,7 @@ Target is something like this:
 }
 '''
 
-# Simple schema definition by String
-type_defs = gql("""
-    type Query {
-        characters: [Character!]!
-    }
-
-    type Character {
-        id: ID
-        name: String
-        status: String
-        species: String
-        type: String
-        gender: String
-    }
-""")
-
-# Map resolver functions to Query fields using QueryType
-query = QueryType()
-
-
-# Resolver for the characters field
-@query.field("characters")
-def resolve_characters(*_):
-    return [
+all_characters = [
         {
             "id": "1",
             "name": "Rick Sanchez",
@@ -206,6 +183,39 @@ def resolve_characters(*_):
             "gender": "Male",
         }
     ]
+
+
+# Simple schema definition by String
+type_defs = gql("""
+    type Query {
+        characters(name: String): [Character!]!
+    }
+
+    type Character {
+        id: ID
+        name: String
+        status: String
+        species: String
+        type: String
+        gender: String
+    }
+    
+""")
+
+# Map resolver functions to Query fields using QueryType
+query = QueryType()
+
+
+def get_filtered_characters(name):
+    return [char for char in all_characters if name in char['name']]
+
+# Resolver for the characters field
+@query.field("characters")
+def resolve_characters(*_, name=None):
+    if name:
+        return get_filtered_characters(name)
+    else:
+        return all_characters
 
 
 
