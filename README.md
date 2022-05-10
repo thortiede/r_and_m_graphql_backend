@@ -37,5 +37,25 @@ Navigate to this address using your favourite browser or HTTP-client and submit 
         }
     }
 
+### Filtering
+It is now possible to filter the characters by name.
+You can use 
+
+     {
+        characters(name:"Morty") {
+            id
+            name
+            status
+            species
+            type
+            gender
+        }
+    }
+
+to filter the list by a single String that represents parts of a name of a character.
+
+
 ### Open issues
-This demo still needs to add the ability to filter the characters by name.
+- Ideally, we want to use a Filter-Object that we pass to the characters query that allows the filtering of multiple names 
+or different attributes of the Character type.
+- The main list type 'Characters' should contain the fields *info* and *results* as top level elements to conform to the best practices for GraphQL
