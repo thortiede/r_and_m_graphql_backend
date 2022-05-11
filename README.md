@@ -10,6 +10,8 @@ Most notably, this demo uses the [ariadne](https://github.com/mirumee/ariadne) p
 power the API backend and the [uvicorn package](http://www.uvicorn.org/) to provide the
 ASGI web server.
 
+This software requires Python >=3.7 has been tested with Python 3.8.12.
+
 ### Running this demo
 To run this demo, clone the repository, make sure to install all needed dependencies 
 (we leave the management of your environment to you) with
