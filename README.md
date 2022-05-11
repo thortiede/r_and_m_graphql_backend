@@ -40,6 +40,10 @@ and submit your query as json-formatted body in a POST request, for example:
     }
 
 ### Filtering
+The result set can be filtered by name and status of the character
+You can search for a single name, or multiple names.
+The single name search takes precedence of searching with multiple names.
+
 ###### Filter the characters by name.
      {
         characters(filter: {name:"Morty"}) {
@@ -53,6 +57,8 @@ and submit your query as json-formatted body in a POST request, for example:
     }
 
 ###### Filter the characters by multiple names.
+When you search with multiple names, all characters satisfying at least one entry in the provided list will be returned.
+
      {
         characters(filter: {names: ["Morty", "Rick"]}) {
             id
