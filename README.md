@@ -54,7 +54,7 @@ and submit your query as json-formatted body in a POST request, for example:
 
 ###### Filter the characters by multiple names.
      {
-        characters(filter{names: ["Morty", "Rick"]}) {
+        characters(filter: {names: ["Morty", "Rick"]}) {
             id
             name
             status
@@ -66,7 +66,7 @@ and submit your query as json-formatted body in a POST request, for example:
 
 ###### Filter the characters by status.
      {
-        characters(filter{status:"Alive"}) {
+        characters(filter: {status:"Alive"}) {
             id
             name
             status
@@ -77,7 +77,7 @@ and submit your query as json-formatted body in a POST request, for example:
     }
 ###### Filter the characters by name and status.
      {
-        characters(filter{name:"Rick", status:"Dead"}) {
+        characters(filter: {name:"Rick", status:"Dead"}) {
             id
             name
             status
